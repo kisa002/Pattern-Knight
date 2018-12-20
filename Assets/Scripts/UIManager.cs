@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour
     public Slider sliderBossHP;
 
     public Image imgBossGuage;
+    public Image imgStat;
+
+    public Sprite sprStatOn, sprStatOff;
 
     string talkTitle = "대마왕";
     string[] talkContext = { "음냐음냐음...", "가소로운 것", "숨을 수 없는 공포를 맞이하라", "겨우 이정도로 나를 물리치려 하다니", "더... 더... 더 강하게 공격해보거라!", "지옥이 그대를 기다린다", "공허 그 너머로 너를 데려가주마", "솔로인가? 그렇다면 목숨만은 살려주지", "커플이라? 우주 최강의 고통을 안겨주마", "나는 아직 배가 고프다", "어떠한 공포를 선사해줄까", "아잉 때리지마여" };
@@ -116,4 +119,14 @@ public class UIManager : MonoBehaviour
         }
     }
     #endregion
+
+    public void StatOn()
+    {
+        imgStat.sprite = sprStatOn;
+    }
+
+    public void StatOff()
+    {
+        imgStat.sprite = sprStatOff;
+    }
 }

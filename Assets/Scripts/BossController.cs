@@ -8,6 +8,8 @@ public class BossController : MonoBehaviour
 
     public int ad;
 
+    bool isDead = false;
+
     private void Start()
     {
         currentHP = maxHP;
@@ -33,9 +35,13 @@ public class BossController : MonoBehaviour
 
         AudioManager.Instance.PlayBossHit();
 
-        if (currentHP <= 0)
+        if (currentHP <= 0 && !isDead)
         {
             // Dead
+            currentHP = 0;
+
+            isDead = true;
+            AudioManager.Instance.PlayBossDead();
         }
     }
     #endregion

@@ -12,9 +12,15 @@ public class AudioManager : MonoBehaviour
     public AudioSource asBossAttack;
     public AudioSource asBossHit;
 
+    public AudioSource asBossDead;
+    public AudioSource asPlayerDead;
+
     public AudioClip[] acPlayerAttack = new AudioClip[3];
     public AudioClip[] acBossAttack = new AudioClip[3];
     public AudioClip[] acBossHit = new AudioClip[3];
+
+    public AudioClip[] acBossDead= new AudioClip[3];
+    public AudioClip[] acPlayerDead = new AudioClip[3];
 
     private void Awake()
     {
@@ -50,5 +56,11 @@ public class AudioManager : MonoBehaviour
     {
         asBossHit.clip = acBossHit[Random.Range(0, acBossHit.Length)];
         asBossHit.Play();
+    }
+
+    public void PlayBossDead()
+    {
+        asBossDead.clip = acBossDead[Random.Range(0, acBossDead.Length)];
+        asBossDead.Play();
     }
 }
