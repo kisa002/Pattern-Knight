@@ -56,6 +56,8 @@ public class BossController : Singleton<BossController>
 
         AudioManager.Instance.PlayBossHit();
 
+        UIManager.Instance.ShowDmg(dmg);
+
         if (currentHP <= 0 && !isDead)
         {
             // Dead

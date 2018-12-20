@@ -15,7 +15,6 @@ public class EffectController : MonoBehaviour {
     void Update () {
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("HitEffects"))
         {
-            Debug.Log("XXX");
             gameObject.SetActive(false);
         }
 	}
