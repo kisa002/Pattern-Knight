@@ -16,8 +16,11 @@ public class GameManager : Singleton<GameManager>
     {
         SlateInfoLoader.Instance.SaveOrLoad();
 
-        NoteManager.Instance.ChangeMonsterNotes();
+        SlateController.Instance.ChangeSlate();
         NoteManager.Instance.ShakeFieldNotes();
+
+        TimeManager.Instance.StartPlayerTimer();
+        TimeManager.Instance.StartBossTimer();
 
         m_GamteState = GameState.CanTouch;
     }

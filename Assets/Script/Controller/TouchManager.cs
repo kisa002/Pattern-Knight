@@ -38,7 +38,11 @@ public class TouchManager : Singleton<TouchManager>
         {
             Debug.Log("MouseButtonUp");
             if (m_isMatchFail == false)
-                NoteManager.Instance.CheckAllNoteMatching();
+            {
+                // 3번 초기화
+                if (NoteManager.Instance.CheckAllNoteMatching())
+                    TimeManager.Instance.ChangePlayerAttackTimer();
+            }
 
             m_isMatchFail = false;
             return;

@@ -20,11 +20,6 @@ public class SlateController : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        ChangeSlate();
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

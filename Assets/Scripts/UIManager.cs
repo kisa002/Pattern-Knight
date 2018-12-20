@@ -32,8 +32,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        StartPlayerTimer(15);
-        StartBossTimer();
+        //StartPlayerTimer(15);
+        //StartBossTimer();
 
         StartRandomTalk();
     }
@@ -80,44 +80,63 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Timer
-    public void StartPlayerTimer(int time)
+    public void SetPlayerTimerText(float time)
     {
-        StartCoroutine(CorPlayerTimer(time));
+        textPlayerTime.text = string.Format("{0:00.0}", time);
+        textPlayerTime.transform.parent.GetComponent<Text>().text = textPlayerTime.text;
     }
 
-    IEnumerator CorPlayerTimer(float time)
+    //public void StartPlayerTimer(int time)
+    //{
+    //    StartCoroutine(CorPlayerTimer(time));
+    //}
+
+    //IEnumerator CorPlayerTimer(float time)
+    //{
+    //    while(time >= 0)
+    //    {
+    //        for (int i = 10; i >= 0; i--)
+    //        {
+    //            time -= 0.1f;
+    //            textPlayerTime.text = string.Format("{0:00.0}", time);
+    //            textPlayerTime.transform.parent.GetComponent<Text>().text = textPlayerTime.text;
+
+    //            if (time <= 0)
+    //                break;
+
+    //            yield return new WaitForSeconds(.1f);
+    //        }
+    //    }
+    //}
+
+    private float _BossTimerFillRatio = 0.0415f;
+    private float _BossTimerStartFillRatio = 0.86f;
+
+    public void AddBossTimerGause()
     {
-        while(time >= 0)
-        {
-            for (int i = 10; i >= 0; i--)
-            {
-                time -= 0.1f;
-                textPlayerTime.text = string.Format("{0:00.0}", time);
-                textPlayerTime.transform.parent.GetComponent<Text>().text = textPlayerTime.text;
-
-                if (time <= 0)
-                    break;
-
-                yield return new WaitForSeconds(.1f);
-            }
-        }
+        imgBossGuage.fillAmount += _BossTimerFillRatio;
     }
 
-    public void StartBossTimer()
+    public void ResetBossTimerGause()
     {
-        StartCoroutine(CorBossTimer());
+        imgBossGuage.fillAmount = _BossTimerStartFillRatio;
     }
 
-    IEnumerator CorBossTimer()
-    {
-        float time = .5f;
+    //public void StartBossTimer()
+    //{
+    //    StartCoroutine(CorBossTimer());
+    //}
 
-        for (int i = 0; i < 20; i++)
-        {
-            imgBossGuage.fillAmount += 0.0415f;
-            yield return new WaitForSeconds(time);
-        }
-    }
+    //IEnumerator CorBossTimer()
+    //{
+    //    float time = .5f;
+
+    //    for (int i = 0; i < 20; i++)
+    //    {
+    //        imgBossGuage.fillAmount += 0.0415f;
+    //        yield return new WaitForSeconds(time);
+    //    }
+    //}
     #endregion
 
     public void StatOn()

@@ -28,6 +28,8 @@ public class NoteManager : Singleton<NoteManager>
 
     public Vector2 m_StartPos = Vector2.zero;
 
+    public bool m_IsEvading = false;
+
     public void Awake()
     {
         if (m_ChainRenderer == null)
@@ -59,7 +61,7 @@ public class NoteManager : Singleton<NoteManager>
             if (note.m_Type != m_MonsterNotes[0])
             {
                 TouchManager.Instance.m_isMatchFail = true;
-                ClearFieldAndSlate();
+                ClearFieldAndSlate(false);
                 return;
             }
 
@@ -80,7 +82,14 @@ public class NoteManager : Singleton<NoteManager>
         {
             Debug.Log("Pattern Failed, [" + m_ChainCount +
                 "] touch : " + note.m_Type + " mob : " + m_MonsterNotes[m_ChainCount]);
-            ClearFieldAndSlate();
+
+            if (m_IsEvading)
+            {
+                // Game Over
+                return;
+            }
+
+            ClearFieldAndSlate(false);
             return;
         }
 
@@ -103,6 +112,12 @@ public class NoteManager : Singleton<NoteManager>
         if (m_ChainCount == 8)
         {
             DoAttack();
+
+            if (m_IsEvading)
+            {
+                m_IsEvading = false;
+                TimeManager.Instance.StartBossTimer();
+            }
         }
     }
 
@@ -145,8 +160,15 @@ public class NoteManager : Singleton<NoteManager>
     //    }
     //}
 
-    public void CheckAllNoteMatching()
+    public bool CheckAllNoteMatching()
     {
+        // 회피 타이머 상태
+        if (m_IsEvading)
+        {
+            // gameover
+            return false;
+        }
+
         Debug.Log("Check All Note Matching");
         if (CompareNotes() > m_MinusMatchCount)
         {
@@ -154,27 +176,33 @@ public class NoteManager : Singleton<NoteManager>
             DoAttack();
         }
 
-        ClearFieldAndSlate();
+        ClearFieldAndSlate(false);
+
+        return true;
     }
 
     /// <summary>
     /// 필드 노트를 섞고, 몬스터 패턴을 바꾸고, 체인 노트를 초기화한다.
     /// </summary>
-    public void ClearFieldAndSlate()
+    public void ClearFieldAndSlate(bool isChangeTimer)
     {
         m_ChainCount = 0;
         m_ChainRenderer.positionCount = 1;
-        
+
         ShakeFieldNotes();
-        ChangeMonsterNotes();
+        SlateController.Instance.ChangeSlate();
 
         m_TouchChainNotes.Clear();
+
+        if (isChangeTimer == false)
+            TimeManager.Instance.ChangePlayerAttackTimer();
     }
 
     private int CompareNotes()
     {
         if (m_TouchChainNotes.Count == 9)
             return 0;
+
 
         int matchedNoteCount = 0;
         for (int i = 0; i < m_TouchChainNotes.Count; i++)
@@ -184,7 +212,6 @@ public class NoteManager : Singleton<NoteManager>
             else
                 break;
         }
-
         Debug.Log("Mathcing Note Count : " + matchedNoteCount);
         return matchedNoteCount;
     }
@@ -200,8 +227,6 @@ public class NoteManager : Singleton<NoteManager>
 
         for (int i = 0; i < notes.Length; i++)
             m_MonsterNotes.Add(notes[i] + 1);
-
-        // change ui
     }
 
     /// <summary>
@@ -251,14 +276,11 @@ public class NoteManager : Singleton<NoteManager>
     public float[] m_ComboDamageRatios = new float[3]{ 1.0f, 1.5f, 2.0f };
     public float m_ComboDamageRatio = 1f;
 
-    public float m_MaxTime = 10f;
-    public float m_NowTime = 10f;
-
     public void DoAttack()
     {
-        float leftTime = m_MaxTime - m_NowTime;
+        float leftTime = TimeManager.Instance.GetPlayerLeftTime();
 
-        float damage = GetTotalDamage(leftTime);
+        GetTotalDamage(leftTime);
     }
 
     /// <summary>
@@ -302,7 +324,7 @@ public class NoteManager : Singleton<NoteManager>
         for (int i = 0; i < m_ComboSteps.Length; i++)
             if (m_ChainCount > m_ComboSteps[i])
                 comboRatio = m_ComboDamageRatios[i];
-        
+
         // 실제 Hit 수 구하기
         int realHit = m_ChainCount - 2;
         if (realHit <= 0)
