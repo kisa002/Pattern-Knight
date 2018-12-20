@@ -305,8 +305,6 @@ public class NoteManager : Singleton<NoteManager>
 
     public void OnAttacked(AttackMissile missile)
     {
-        // show effect
-
         if (m_ActiveMissiles.Contains(missile) == false)
             return;
 
@@ -314,7 +312,7 @@ public class NoteManager : Singleton<NoteManager>
 
         if(m_ActiveMissiles.Count == 0)
         {
-            //GameManager.Instance.OnDontTouch();
+            GameManager.Instance.OnCanTouch();
         }
     }
 

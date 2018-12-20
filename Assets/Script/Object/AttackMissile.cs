@@ -51,12 +51,13 @@ public class AttackMissile : MonoBehaviour
     private void HitBoss()
     {
         BossController.Instance.HitDmg(m_Damage);
+        EffectManager.Instance.PlayHitEffect(transform.position);
+        NoteManager.Instance.OnAttacked(this);
         Disable();
     }
 
     public void Disable()
     {
-        NoteManager.Instance.OnAttacked(this);
         gameObject.SetActive(false);
     }
 }
