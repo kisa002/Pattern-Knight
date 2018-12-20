@@ -48,6 +48,11 @@ public class Ui_SlateCtrl : MonoBehaviour
         m_BossAttackIconBorder.enabled = false;
     }
 
+    public void SwitchPlayerAttackIcon(bool isOn)
+    {
+        m_PlayerAttackOnIcon.SetActive(isOn);
+    }
+
     public void SwitchDamageRatioText(bool isOn)
     {
         for (int i = 0; i < m_DamageRatioText.Count; i++)

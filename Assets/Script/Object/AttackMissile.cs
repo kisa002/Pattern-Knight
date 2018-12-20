@@ -50,7 +50,7 @@ public class AttackMissile : MonoBehaviour
 
     private void HitBoss()
     {
-        BossController.Instance.HitDmg(m_Damage);
+        BossController.Instance.HitDmg(m_Damage, transform.position);
         EffectManager.Instance.PlayHitEffect(transform.position);
         NoteManager.Instance.OnAttacked(this);
         Disable();

@@ -30,8 +30,8 @@ public class BossController : Singleton<BossController>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            HitDmg(Random.Range(1000, 3000));
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //    HitDmg(Random.Range(1000, 3000));
 
         if (Input.GetKeyDown(KeyCode.A))
             PlayAnimAttackWait();
@@ -49,14 +49,14 @@ public class BossController : Singleton<BossController>
         return currentHP;
     }
 
-    public void HitDmg(int dmg)
+    public void HitDmg(int dmg, Vector3 pos)
     {
         currentHP -= dmg;
         UIManager.Instance.SetBossHP(currentHP, maxHP);
 
         AudioManager.Instance.PlayBossHit();
 
-        UIManager.Instance.ShowDmg(dmg);
+        UIManager.Instance.ShowDmg(dmg, pos);
 
         if (currentHP <= 0 && !isDead)
         {

@@ -53,6 +53,8 @@ public class NoteManager : Singleton<NoteManager>
         m_TouchChainNotes.Add(note);
 
         note.Touched();
+
+        UIManager.Instance.IncreaseGauge();
     }
 
     public void CheckNote(NoteCtrl note)
@@ -110,6 +112,15 @@ public class NoteManager : Singleton<NoteManager>
 
         note.Touched();
 
+        UIManager.Instance.IncreaseGauge();
+
+        if(m_ChainCount > m_MinusMatchCount && m_IsEvading == false)
+        {
+            UIManager.Instance.m_SlateCtrl.SwitchPlayerAttackIcon(true);
+
+            return;
+        }
+
         // 8개 패턴 모드 매칭되는 경우
         if (m_ChainCount == 8)
         {
@@ -125,6 +136,8 @@ public class NoteManager : Singleton<NoteManager>
             }
 
             ClearFieldAndSlate(false);
+
+            return;
         }
     }
 
@@ -199,7 +212,11 @@ public class NoteManager : Singleton<NoteManager>
         ShakeFieldNotes();
         SlateController.Instance.ChangeSlate();
 
+        UIManager.Instance.m_SlateCtrl.SwitchPlayerAttackIcon(false);
+
         m_TouchChainNotes.Clear();
+
+        UIManager.Instance.ResetSlateGauge();
 
         if (isChangeTimer == false)
             TimeManager.Instance.ChangePlayerAttackTimer();
