@@ -163,7 +163,7 @@ public class UIManager : MonoBehaviour
     {
         imgStat.sprite = sprStatOff;
     }
-
+    
     public void ShowDmg(int dmg)
     {
         for (int i = 0; i < 8; i++)
@@ -178,4 +178,9 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    [Header("Slate")]
+    public Ui_SlateCtrl m_SlateCtrl;
+
+    public void ChangeSlate() { m_SlateCtrl.ChangeSlate(); }
 }

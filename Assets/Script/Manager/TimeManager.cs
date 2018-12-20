@@ -99,7 +99,7 @@ public class TimeManager : Singleton<TimeManager>
 
         m_PlayerTimer = StartCoroutine(CorPlayerTimer());
     }
-    
+
     /// <summary>
     /// '플레이어 타이머'와 '회피 타이머' 역할. 타이머가 종료되면 자동으로 '플레이어 타이머'로 변경됨.
     /// </summary>
@@ -162,8 +162,14 @@ public class TimeManager : Singleton<TimeManager>
         m_BossGauseCount = 0;
         NoteManager.Instance.ClearFieldAndSlate(true);
 
-        // 2번 초기화
+        UIManager.Instance.ChangeSlate();
         ChangePlayerEvadeTimer();
+    }
+
+    public void StopBossTimer()
+    {
+        if (m_BossTimer != null)
+            StopCoroutine(m_BossTimer);
     }
     #endregion
 }
