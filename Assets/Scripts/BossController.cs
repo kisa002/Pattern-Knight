@@ -38,6 +38,9 @@ public class BossController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
             PlayAnimAttack();
+
+        if (Input.GetKeyDown(KeyCode.D))
+            AudioManager.Instance.PlayBossVoice();
     }
 
     #region HP
