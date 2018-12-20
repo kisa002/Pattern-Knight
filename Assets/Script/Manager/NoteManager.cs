@@ -60,7 +60,7 @@ public class NoteManager : Singleton<NoteManager>
         {
             if (note.m_Type != m_MonsterNotes[0])
             {
-                TouchManager.Instance.m_IsMatchFail = true;
+                TouchManager.Instance.m_IsPressing = false;
                 ClearFieldAndSlate(false);
                 return;
             }
@@ -111,6 +111,8 @@ public class NoteManager : Singleton<NoteManager>
         // 8개 패턴 모드 매칭되는 경우
         if (m_ChainCount == 8)
         {
+            TouchManager.Instance.m_IsPressing = false;
+
             DoAttack();
 
             if (m_IsEvading)

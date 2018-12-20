@@ -5,7 +5,7 @@ using UnityEngine;
 public class TouchManager : Singleton<TouchManager>
 {
     public Camera mainCamera;
-    public bool m_IsMatchFail;
+    public bool m_IsMatchFail, m_IsPressing = false;
 
     private void Update()
     {
@@ -13,7 +13,14 @@ public class TouchManager : Singleton<TouchManager>
             return;
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButton(0))
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            m_IsPressing = true;
+            return;
+        }
+
+        if (Input.GetMouseButton(0) && m_IsPressing)
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction
@@ -33,17 +40,15 @@ public class TouchManager : Singleton<TouchManager>
             return;
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && m_IsPressing)
         {
             Debug.Log("MouseButtonUp");
-            if (m_IsMatchFail == false)
-            {
-                // 3번 초기화
-                if (NoteManager.Instance.CheckAllNoteMatching())
-                    TimeManager.Instance.ChangePlayerAttackTimer();
-            }
 
-            m_IsMatchFail = false;
+            m_IsPressing = false;
+
+            // 3번 초기화
+            if (NoteManager.Instance.CheckAllNoteMatching())
+                TimeManager.Instance.ChangePlayerAttackTimer();
             return;
         }
 #else
