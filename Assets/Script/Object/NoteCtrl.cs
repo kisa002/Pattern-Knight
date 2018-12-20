@@ -11,11 +11,12 @@ public class NoteCtrl : MonoBehaviour
 
     public void Active(NoteType type)
     {
-        m_Type = (NoteType)Random.Range(0, 9);
+        m_Type = type + 1;
 
         gameObject.SetActive(true);
+        touchBorder.SetActive(false);
 
-        m_Renderer.sprite = noteSprites[(int)m_Type];
+        m_Renderer.sprite = noteSprites[(int)type];
     }
 
     public void Touched()

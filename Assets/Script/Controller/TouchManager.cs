@@ -22,7 +22,7 @@ public class TouchManager : Singleton<TouchManager>
             if (hit)
             {
                 NoteCtrl touchedNote = hit.transform.GetComponent<NoteCtrl>();
-                Debug.Log("Touch : " + touchedNote.name);
+                //Debug.Log("Touch : " + touchedNote.name);
                 NoteManager.Instance.CheckNote(touchedNote);
                 return;
             }

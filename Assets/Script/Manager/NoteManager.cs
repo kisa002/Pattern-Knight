@@ -118,6 +118,8 @@ public class NoteManager : Singleton<NoteManager>
                 m_IsEvading = false;
                 TimeManager.Instance.StartBossTimer();
             }
+
+            ClearFieldAndSlate(false);
         }
     }
 
