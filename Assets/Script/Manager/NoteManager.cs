@@ -121,6 +121,7 @@ public class NoteManager : Singleton<NoteManager>
             {
                 m_IsEvading = false;
                 TimeManager.Instance.StartBossTimer();
+                UIManager.Instance.ChangeSlate();
             }
 
             ClearFieldAndSlate(false);

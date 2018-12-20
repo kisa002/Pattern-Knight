@@ -161,4 +161,9 @@ public class UIManager : MonoBehaviour
     {
         imgStat.sprite = sprStatOff;
     }
+
+    [Header("Slate")]
+    public Ui_SlateCtrl m_SlateCtrl;
+
+    public void ChangeSlate() { m_SlateCtrl.ChangeSlate(); }
 }
