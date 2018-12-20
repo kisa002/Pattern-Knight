@@ -44,3 +44,5 @@ ios.app
 *.apk
 *.unitypackage
 
+.vs/Pattern-Knight2/v15/Server/sqlite3/storage.ide-wal
+.vs/Pattern-Knight2/v15/Server/sqlite3/storage.ide
