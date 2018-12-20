@@ -17,7 +17,6 @@ public class GameManager : Singleton<GameManager>
         SlateInfoLoader.Instance.SaveOrLoad();
 
         NoteManager.Instance.ChangeMonsterNotes();
-        NoteManager.Instance.ShakeFieldNotes();
 
         m_GamteState = GameState.CanTouch;
     }

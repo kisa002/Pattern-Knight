@@ -6,15 +6,13 @@ public class TouchManager : Singleton<TouchManager>
 {
     public Camera mainCamera;
 
-    public bool m_isMatchFail = false;
-
     private void Update()
     {
         if (GameManager.Instance.m_GamteState != GameState.CanTouch)
             return;
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButton(0) && m_isMatchFail == false)
+        if (Input.GetMouseButton(0))
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction
@@ -23,7 +21,7 @@ public class TouchManager : Singleton<TouchManager>
             if (hit)
             {
                 NoteCtrl touchedNote = hit.transform.GetComponent<NoteCtrl>();
-                //Debug.Log("Touch : " + touchedNote.name);
+                Debug.Log("Touch : " + touchedNote.name);
                 NoteManager.Instance.CheckNote(touchedNote);
                 return;
             }
@@ -37,10 +35,7 @@ public class TouchManager : Singleton<TouchManager>
         if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("MouseButtonUp");
-            if (m_isMatchFail == false)
-                NoteManager.Instance.CheckAllNoteMatching();
-
-            m_isMatchFail = false;
+            NoteManager.Instance.MatchingNotes();
             return;
         }
 #else
