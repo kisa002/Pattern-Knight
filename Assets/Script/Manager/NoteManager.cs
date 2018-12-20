@@ -43,10 +43,12 @@ public class NoteManager : Singleton<NoteManager>
         m_ChainCount = 1;
 
         m_ChainRenderer.positionCount = 2;
-        m_ChainRenderer.SetPosition(0, note.transform.position);
-        m_ChainRenderer.SetPosition(1, note.transform.position);
 
+        m_StartPos = note.transform.position;
         transform.position = note.transform.position;
+
+        m_ChainRenderer.SetPosition(0, Vector2.zero);
+        m_ChainRenderer.SetPosition(1, Vector2.zero);
 
         m_TouchChainNotes.Add(note);
 
@@ -85,7 +87,7 @@ public class NoteManager : Singleton<NoteManager>
 
             if (m_IsEvading)
             {
-                // Game Over
+                GameManager.Instance.OnGameOver();
                 return;
             }
 
@@ -99,12 +101,12 @@ public class NoteManager : Singleton<NoteManager>
 
     public void AddChainedNote(NoteCtrl note)
     {
-        m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)note.transform.position);
+        m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)note.transform.position - m_StartPos);
 
         m_ChainCount++;
 
         m_ChainRenderer.positionCount++;
-        m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)note.transform.position);
+        m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)note.transform.position - m_StartPos);
 
         note.Touched();
 
@@ -129,7 +131,7 @@ public class NoteManager : Singleton<NoteManager>
     {
         if (m_TouchChainNotes.Count != 0)
         {
-            m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)pos);
+            //m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)pos - m_StartPos);
         }
     }
 
@@ -169,7 +171,7 @@ public class NoteManager : Singleton<NoteManager>
         // 회피 타이머 상태
         if (m_IsEvading)
         {
-            // gameover
+            GameManager.Instance.OnGameOver();
             return false;
         }
 
@@ -280,11 +282,38 @@ public class NoteManager : Singleton<NoteManager>
     public float[] m_ComboDamageRatios = new float[3]{ 1.0f, 1.5f, 2.0f };
     public float m_ComboDamageRatio = 1f;
 
+    public float m_LeftTime = 0f;
+    public float m_NowDamage = 0f;
+
+    public List<AttackMissile> m_Missiles = new List<AttackMissile>();
+    private List<AttackMissile> m_ActiveMissiles = new List<AttackMissile>();
+
     public void DoAttack()
     {
-        float leftTime = TimeManager.Instance.GetPlayerLeftTime();
+        m_LeftTime = TimeManager.Instance.GetPlayerLeftTime();
+        m_NowDamage = GetTotalDamage(m_LeftTime);
 
-        GetTotalDamage(leftTime);
+        GameManager.Instance.OnDontTouch();
+
+        for (int i = 0; i < m_ChainCount; i++)
+        {
+            m_ActiveMissiles.Add(m_Missiles[i]);
+            m_Missiles[i].Active(Mathf.FloorToInt(m_NowDamage / m_ChainCount)
+                , m_TouchChainNotes[i].transform.position);
+        }
+    }
+
+    public void OnAttacked(AttackMissile missile)
+    {
+        if (m_ActiveMissiles.Contains(missile) == false)
+            return;
+
+        m_ActiveMissiles.Remove(missile);
+
+        if(m_ActiveMissiles.Count == 0)
+        {
+            GameManager.Instance.OnCanTouch();
+        }
     }
 
     /// <summary>

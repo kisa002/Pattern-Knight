@@ -9,7 +9,7 @@ public class TouchManager : Singleton<TouchManager>
 
     private void Update()
     {
-        if (GameManager.Instance.m_GamteState != GameState.CanTouch)
+        if (GameManager.Instance.m_GameState != GameState.CanTouch)
             return;
 
 #if UNITY_EDITOR

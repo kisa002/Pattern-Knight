@@ -24,7 +24,7 @@ public class EffectManager : MonoBehaviour
             //PlayHitEffect(1);
         }
     }
-
+    
     public void PlayHitEffect(int count)
     {
         Debug.Log("E");
@@ -32,6 +32,19 @@ public class EffectManager : MonoBehaviour
         {
             hitEffect[i].gameObject.SetActive(true);
             hitEffect[i].transform.position = new Vector3(Random.Range(-1, 2), Random.Range(2, 4), -5);
+        }
+    }
+
+    public void PlayHitEffect(Vector3 pos)
+    {
+        for (int i = 0; i < hitEffect.Length; i++)
+        {
+            if (hitEffect[i].gameObject.activeSelf == false)
+            {
+                hitEffect[i].transform.position = pos;
+                hitEffect[i].gameObject.SetActive(true);
+                break;
+            }
         }
     }
 }
