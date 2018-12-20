@@ -10,6 +10,8 @@ public class BossController : MonoBehaviour
 
     bool isDead = false;
 
+    public RuntimeAnimatorController animIdle, animAttackWait, animAttack;
+
     private void Start()
     {
         currentHP = maxHP;
@@ -45,4 +47,19 @@ public class BossController : MonoBehaviour
         }
     }
     #endregion
+
+    public void PlayAnimIdle()
+    {
+        GetComponent<Animator>().runtimeAnimatorController = animIdle;
+    }
+
+    public void PlayAnimAttackWait()
+    {
+        GetComponent<Animator>().runtimeAnimatorController = animAttackWait;
+    }
+
+    public void PlayAnimAttack()
+    {
+        GetComponent<Animator>().runtimeAnimatorController = animAttack;
+    }
 }

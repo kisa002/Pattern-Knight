@@ -28,7 +28,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Boss_Attack
-  m_Speed: 0.17
+  m_Speed: 0.09
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
