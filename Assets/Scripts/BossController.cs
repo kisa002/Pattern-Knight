@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
+    public static BossController Instance;
+
     public int currentHP, maxHP;
 
     public int ad;
@@ -11,6 +13,14 @@ public class BossController : MonoBehaviour
     bool isDead = false;
 
     public RuntimeAnimatorController animIdle, animAttackWait, animAttack;
+
+    private void Awake()
+    {
+        if (BossController.Instance == null)
+            BossController.Instance = this;
+        else
+            Destroy(gameObject);
+    }
 
     private void Start()
     {
