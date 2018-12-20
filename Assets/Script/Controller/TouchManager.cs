@@ -5,6 +5,7 @@ using UnityEngine;
 public class TouchManager : Singleton<TouchManager>
 {
     public Camera mainCamera;
+    public bool m_IsMatchFail;
 
     private void Update()
     {
@@ -35,7 +36,14 @@ public class TouchManager : Singleton<TouchManager>
         if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("MouseButtonUp");
-            NoteManager.Instance.MatchingNotes();
+            if (m_IsMatchFail == false)
+            {
+                // 3번 초기화
+                if (NoteManager.Instance.CheckAllNoteMatching())
+                    TimeManager.Instance.ChangePlayerAttackTimer();
+            }
+
+            m_IsMatchFail = false;
             return;
         }
 #else

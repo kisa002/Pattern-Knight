@@ -38,9 +38,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        StartPlayerTimer(15);
-        StartBossTimer();
-
         StartRandomTalk();
     }
 
@@ -86,47 +83,25 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Timer
-    public void StartPlayerTimer(int time)
+    public void SetPlayerTimerText(float time)
     {
-        StartCoroutine(CorPlayerTimer(time));
+        textPlayerTime.text = string.Format("{0:00.0}", time);
+        textPlayerTime.transform.parent.GetComponent<Text>().text = textPlayerTime.text;
+    }
+    
+    private float _BossTimerFillRatio = 0.0415f;
+    private float _BossTimerStartFillRatio = 0.86f;
+
+    public void AddBossTimerGause()
+    {
+        imgBossGuage.fillAmount += _BossTimerFillRatio;
     }
 
-    IEnumerator CorPlayerTimer(float time)
+    public void ResetBossTimerGause()
     {
-        while(time >= 0)
-        {
-            for (int i = 10; i >= 0; i--)
-            {
-                time -= 0.1f;
-                textPlayerTime.text = string.Format("{0:00.0}", time);
-                textPlayerTime.transform.parent.GetComponent<Text>().text = textPlayerTime.text;
-
-                if (time <= 0)
-                    break;
-
-                yield return new WaitForSeconds(.1f);
-            }
-        }
+        imgBossGuage.fillAmount = _BossTimerStartFillRatio;
     }
-
-    public void StartBossTimer()
-    {
-        StartCoroutine(CorBossTimer());
-    }
-
-    IEnumerator CorBossTimer()
-    {
-        float time = .5f;
-
-        for (int i = 0; i < 22; i++)
-        {
-            imgBossGuage.fillAmount += 0.0415f;
-            yield return new WaitForSeconds(time);
-        }
-
-        BossAttack();
-    }
-
+    
     public void BossAttack()
     {
         // 보스가 플레이어에게 공격하는 함수
