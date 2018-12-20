@@ -12,7 +12,7 @@ public class BossController : MonoBehaviour
 
     bool isDead = false;
 
-    public RuntimeAnimatorController animIdle, animAttackWait, animAttack;
+    public Animator animator;
 
     private void Awake()
     {
@@ -31,7 +31,13 @@ public class BossController : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            HitDmg(Random.Range(100, 500));
+            HitDmg(Random.Range(1000, 3000));
+
+        if (Input.GetKeyDown(KeyCode.A))
+            PlayAnimAttackWait();
+
+        if (Input.GetKeyDown(KeyCode.S))
+            PlayAnimAttack();
     }
 
     #region HP
@@ -54,22 +60,19 @@ public class BossController : MonoBehaviour
 
             isDead = true;
             AudioManager.Instance.PlayBossDead();
+
+            PlayAnimAttack();
         }
     }
     #endregion
 
-    public void PlayAnimIdle()
-    {
-        GetComponent<Animator>().runtimeAnimatorController = animIdle;
-    }
-
     public void PlayAnimAttackWait()
     {
-        GetComponent<Animator>().runtimeAnimatorController = animAttackWait;
+        animator.SetTrigger("AttackWait");
     }
 
     public void PlayAnimAttack()
     {
-        GetComponent<Animator>().runtimeAnimatorController = animAttack;
+        animator.SetTrigger("Attack");
     }
 }
