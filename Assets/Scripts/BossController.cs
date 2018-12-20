@@ -31,6 +31,8 @@ public class BossController : MonoBehaviour
         currentHP -= dmg;
         UIManager.Instance.SetBossHP(currentHP, maxHP);
 
+        AudioManager.Instance.PlayBossHit();
+
         if (currentHP <= 0)
         {
             // Dead
