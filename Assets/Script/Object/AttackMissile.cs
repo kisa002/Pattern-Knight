@@ -13,17 +13,17 @@ public class AttackMissile : MonoBehaviour
 
     public void Awake()
     {
-        m_BossPos = GameObject.Find("BOSS").transform.position;
+        m_BossPos = Camera.main.WorldToScreenPoint(GameObject.Find("BOSS").transform.position);
         gameObject.SetActive(false);
     }
 
     public void Active(int damage, Vector3 pos)
     {
-        m_FromPos = transform.position = pos;
+        m_FromPos = transform.position = Camera.main.WorldToScreenPoint(pos);
 
         m_ToPos = m_BossPos;
-        m_ToPos.x += Random.Range(-0.5f, 0.5f);
-        m_ToPos.y += Random.Range(-1.0f, 1.0f);
+        m_ToPos.x += Random.Range(-150f, 150f);
+        m_ToPos.y += Random.Range(-150f, 150f);
 
         m_MoveTime = Random.Range(0.7f, 1.0f);
 
@@ -50,8 +50,9 @@ public class AttackMissile : MonoBehaviour
 
     private void HitBoss()
     {
-        BossController.Instance.HitDmg(m_Damage, transform.position);
-        EffectManager.Instance.PlayHitEffect(transform.position);
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(transform.position);
+        BossController.Instance.HitDmg(m_Damage, worldPos);
+        EffectManager.Instance.PlayHitEffect(worldPos);
         NoteManager.Instance.OnAttacked(this);
         Disable();
     }
