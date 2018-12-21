@@ -149,6 +149,10 @@ public class NoteManager : Singleton<NoteManager>
         }
     }
 
+    private IEnumerator CorShakeField()
+    {
+    }
+
     //public void RemoveChainedNote() { }
 
     ///// <summary>
