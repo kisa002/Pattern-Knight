@@ -122,6 +122,8 @@ public class NoteManager : Singleton<NoteManager>
             if (GameManager.Instance.m_IsTitle)
             {
                 ClearFieldAndSlate(false);
+                GameManager.Instance.EndTitle();
+
                 return;
             }
 
@@ -245,6 +247,9 @@ public class NoteManager : Singleton<NoteManager>
         m_TouchChainNotes.Clear();
 
         UIManager.Instance.ResetSlateGauge();
+
+        if (GameManager.Instance.m_IsTitle)
+            return;
 
         if (isChangeTimer == false)
             TimeManager.Instance.ChangePlayerAttackTimer();

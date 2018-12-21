@@ -20,14 +20,15 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
+        StartCoroutine(LoadData());
 
-        SlateController.Instance.ChangeSlate();
-        NoteManager.Instance.ShakeFieldNotes();
+        //SlateController.Instance.ChangeSlate();
+        //NoteManager.Instance.ShakeFieldNotes();
 
-        TimeManager.Instance.StartPlayerTimer();
-        TimeManager.Instance.StartBossTimer();
+        //TimeManager.Instance.StartPlayerTimer();
+        //TimeManager.Instance.StartBossTimer();
 
-        m_GameState = GameState.CanTouch;
+        //m_GameState = GameState.CanTouch;
     }
 
     public IEnumerator LoadData()
@@ -63,7 +64,7 @@ public class GameManager : Singleton<GameManager>
         float nowTime = 0f;
         while (nowTime < m_TitleCurtainCallTime)
         {
-            m_TitleCurtain.fillAmount 
+            m_TitleCurtain.fillAmount
                 = Mathf.Lerp(m_TitleFillRatio, m_TitleFillLastRatio
                             , nowTime / m_TitleCurtainCallTime);
 
@@ -86,19 +87,41 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(CorTitleEnding());
     }
 
+    public GameObject m_TitleLogoBG, m_TitleSlate;
+    public Image m_TitleLogoBar, m_TitleLogo;
+
+    Color color_alpha = new Color(0, 0, 0, 0);
+
     public IEnumerator CorTitleEnding()
     {
         float nowTime = 0f;
+
+        m_TitleLogo.enabled = false;
+
         while (nowTime < m_TitleCurtainCallTime)
         {
             m_TitleCurtain.fillAmount
-                = Mathf.Lerp(m_TitleFillLastRatio, 0f
+                = Mathf.Lerp(m_TitleFillLastRatio, 0.31f
                             , nowTime / m_TitleCurtainCallTime);
+
+            m_TitleLogoBar.color = Color.Lerp(Color.white, color_alpha, nowTime / m_TitleCurtainCallTime);
 
             yield return new WaitForFixedUpdate();
 
             nowTime += Time.fixedDeltaTime;
         }
+
+        m_TitleSlate.SetActive(false);
+        m_TitleCurtain.gameObject.SetActive(false);
+        m_TitleLogoBG.SetActive(false);
+
+        SlateController.Instance.ChangeSlate();
+        NoteManager.Instance.ShakeFieldNotes();
+
+        TimeManager.Instance.StartPlayerTimer();
+        TimeManager.Instance.StartBossTimer();
+
+        m_GameState = GameState.CanTouch;
     }
 
     public void OnCanTouch()

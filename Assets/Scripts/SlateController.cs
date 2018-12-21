@@ -20,15 +20,6 @@ public class SlateController : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            IncreaseGauge();
-            ChangeSlate();
-        }
-    }
-
     public void IncreaseGauge()
     {
         //imgSlatGuage.fillAmount += 0.105f;
@@ -64,7 +55,6 @@ public class SlateController : MonoBehaviour
 
         for (int i = 0; i < 8; i++)
         {
-            //Debug.Log("index: " + (int)NoteManager.Instance.m_MonsterNotes[i]);
             imgSlates[i].sprite = sprSlates[(int)NoteManager.Instance.m_MonsterNotes[i] - 1];
         }
     }

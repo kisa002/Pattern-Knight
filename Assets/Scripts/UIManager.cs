@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour
     public GameObject slatePlayer, slateBoss;
 
     public Image m_SlateGauge;
-    public Image[] imgBossSlates = new Image[9];
     public Sprite[] sprSlates = new Sprite[9];
 
     [Header("Damage Hud Text")]

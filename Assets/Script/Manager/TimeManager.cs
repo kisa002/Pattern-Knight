@@ -26,7 +26,8 @@ public class TimeManager : Singleton<TimeManager>
     {
         if (m_PlayerTimer != null)
         {
-            StopCoroutine(m_PlayerTimer);
+            if (m_PlayerTimer != null)
+                StopCoroutine(m_PlayerTimer);
 
             m_PlayerNowTime = m_PlayerMaxTimeAttack;
 
@@ -37,7 +38,8 @@ public class TimeManager : Singleton<TimeManager>
 
         if (m_BossTimer != null)
         {
-            StopCoroutine(m_BossTimer);
+            if (m_BossTimer != null)
+                StopCoroutine(m_BossTimer);
 
             m_PlayerNowTime = m_PlayerMaxTimeAttack;
 
@@ -73,7 +75,8 @@ public class TimeManager : Singleton<TimeManager>
     /// </summary>
     public void ChangePlayerAttackTimer()
     {
-        StopCoroutine(m_PlayerTimer);
+        if (m_PlayerTimer != null)
+            StopCoroutine(m_PlayerTimer);
 
         m_PlayerMaxTime = m_PlayerMaxTimeAttack;
         m_PlayerNowTime = m_PlayerMaxTimeAttack;
@@ -88,7 +91,8 @@ public class TimeManager : Singleton<TimeManager>
     /// </summary>
     public void ChangePlayerEvadeTimer()
     {
-        StopCoroutine(m_PlayerTimer);
+        if (m_PlayerTimer != null)
+            StopCoroutine(m_PlayerTimer);
 
         NoteManager.Instance.m_IsEvading = true;
 
