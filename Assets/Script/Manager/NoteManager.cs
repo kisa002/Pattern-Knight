@@ -217,8 +217,14 @@ public class NoteManager : Singleton<NoteManager>
         }
 
         Debug.Log("Check All Note Matching");
-        if (CompareNotes() > m_MinusMatchCount)
+        int matchnote = CompareNotes();
+        if (matchnote > m_MinusMatchCount)
         {
+            if(GameManager.Instance.m_IsTitle == true && matchnote != 8)
+            {
+                StartCoroutine(CorShakeField());
+                return false;
+            }
             // 데미지 처리
             DoAttack();
             ClearFieldAndSlate(false);

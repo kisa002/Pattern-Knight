@@ -46,7 +46,6 @@ public class TouchManager : Singleton<TouchManager>
 
             m_IsPressing = false;
 
-            // 3번 초기화
             if (NoteManager.Instance.CheckAllNoteMatching())
                 TimeManager.Instance.ChangePlayerAttackTimer();
             return;
