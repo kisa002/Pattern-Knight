@@ -145,7 +145,7 @@ public class NoteManager : Singleton<NoteManager>
     {
         if (m_TouchChainNotes.Count != 0)
         {
-            //m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)pos - m_StartPos);
+            m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)pos - m_StartPos);
         }
     }
 
