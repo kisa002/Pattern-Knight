@@ -19,6 +19,9 @@ public class AttackMissile : MonoBehaviour
 
     public void Active(int damage, Vector3 pos)
     {
+        if (GameManager.Instance.m_IsTitle)
+            return;
+
         m_FromPos = transform.position = Camera.main.WorldToScreenPoint(pos);
 
         m_ToPos = m_BossPos;

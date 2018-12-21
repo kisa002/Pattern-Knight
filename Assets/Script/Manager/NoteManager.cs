@@ -113,13 +113,18 @@ public class NoteManager : Singleton<NoteManager>
         if (m_ChainCount > m_MinusMatchCount && m_IsEvading == false)
         {
             UIManager.Instance.m_SlateCtrl.SwitchPlayerAttackIcon(true);
-
-            return;
         }
 
         // 8개 패턴 모드 매칭되는 경우
         if (m_ChainCount == 8)
         {
+            // 타이틀 패턴 해금
+            if (GameManager.Instance.m_IsTitle)
+            {
+                ClearFieldAndSlate(false);
+                return;
+            }
+
             TouchManager.Instance.m_IsPressing = false;
 
             DoAttack();

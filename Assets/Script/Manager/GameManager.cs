@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public enum GameState
 {
@@ -14,10 +16,10 @@ public enum GameState
 public class GameManager : Singleton<GameManager>
 {
     public GameState m_GameState = GameState.Idle;
+    public bool m_IsTitle = true;
 
     public void Start()
     {
-        SlateInfoLoader.Instance.SaveOrLoad();
 
         SlateController.Instance.ChangeSlate();
         NoteManager.Instance.ShakeFieldNotes();
@@ -26,6 +28,77 @@ public class GameManager : Singleton<GameManager>
         TimeManager.Instance.StartBossTimer();
 
         m_GameState = GameState.CanTouch;
+    }
+
+    public IEnumerator LoadData()
+    {
+        SlateInfoLoader.Instance.SaveOrLoad();
+
+        yield return null;
+
+        LoadTitle();
+    }
+
+    public float m_TitleFillRatio = 0.47f, m_TitleFillLastRatio = 0.33f;
+    public float m_TitleCurtainCallTime = 0.5f;
+    public Image m_TitleCurtain;
+
+    public void LoadTitle()
+    {
+        // 1. boss 무적
+        BossController.Instance.m_IsDead = true;
+
+        // 2. 일회용 족보 세팅
+        SlateController.Instance.ChangeSlate();
+
+        // 3. 필드 노트 세팅
+        NoteManager.Instance.ShakeFieldNotes();
+
+        StartCoroutine(CorTitleCurtainCall());
+
+    }
+
+    public IEnumerator CorTitleCurtainCall()
+    {
+        float nowTime = 0f;
+        while (nowTime < m_TitleCurtainCallTime)
+        {
+            m_TitleCurtain.fillAmount 
+                = Mathf.Lerp(m_TitleFillRatio, m_TitleFillLastRatio
+                            , nowTime / m_TitleCurtainCallTime);
+
+            yield return new WaitForFixedUpdate();
+
+            nowTime += Time.fixedDeltaTime;
+        }
+
+        m_GameState = GameState.CanTouch;
+    }
+
+    public void EndTitle()
+    {
+        // 1. 터치 잠금
+        m_GameState = GameState.DontTouch;
+
+        // 2. Boss 무적 취소
+        BossController.Instance.m_IsDead = false;
+
+        StartCoroutine(CorTitleEnding());
+    }
+
+    public IEnumerator CorTitleEnding()
+    {
+        float nowTime = 0f;
+        while (nowTime < m_TitleCurtainCallTime)
+        {
+            m_TitleCurtain.fillAmount
+                = Mathf.Lerp(m_TitleFillLastRatio, 0f
+                            , nowTime / m_TitleCurtainCallTime);
+
+            yield return new WaitForFixedUpdate();
+
+            nowTime += Time.fixedDeltaTime;
+        }
     }
 
     public void OnCanTouch()
