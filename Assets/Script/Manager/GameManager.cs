@@ -21,14 +21,17 @@ public class GameManager : Singleton<GameManager>
     public void Start()
     {
         StartCoroutine(LoadData());
+    }
 
-        //SlateController.Instance.ChangeSlate();
-        //NoteManager.Instance.ShakeFieldNotes();
+    public void ResetGame()
+    {
+        SlateController.Instance.ChangeSlate();
+        NoteManager.Instance.ShakeFieldNotes();
 
-        //TimeManager.Instance.StartPlayerTimer();
-        //TimeManager.Instance.StartBossTimer();
+        TimeManager.Instance.StartPlayerTimer();
+        TimeManager.Instance.StartBossTimer();
 
-        //m_GameState = GameState.CanTouch;
+        m_GameState = GameState.CanTouch;
     }
 
     public IEnumerator LoadData()
@@ -114,6 +117,8 @@ public class GameManager : Singleton<GameManager>
         m_TitleSlate.SetActive(false);
         m_TitleCurtain.gameObject.SetActive(false);
         m_TitleLogoBG.SetActive(false);
+
+        m_IsTitle = false;
 
         SlateController.Instance.ChangeSlate();
         NoteManager.Instance.ShakeFieldNotes();
