@@ -8,6 +8,7 @@ public class NoteCtrl : MonoBehaviour
     public NoteType m_Type = NoteType.Undefine;
     public GameObject touchBorder = null;
     public Sprite[] noteSprites = new Sprite[9];
+    public GameObject particle;
 
     public void Active(NoteType type)
     {
