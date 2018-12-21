@@ -69,7 +69,6 @@ public class NoteManager : Singleton<NoteManager>
                 StartCoroutine(CorShakeField());
                 return;
             }
-
             InitChain(note);
             return;
         }
@@ -99,6 +98,8 @@ public class NoteManager : Singleton<NoteManager>
 
     public void AddChainedNote(NoteCtrl note)
     {
+        note.particle.SetActive(true);
+    
         m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)note.transform.position - m_StartPos);
 
         m_ChainCount++;
