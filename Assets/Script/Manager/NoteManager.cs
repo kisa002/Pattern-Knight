@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public enum NoteType
@@ -65,7 +66,7 @@ public class NoteManager : Singleton<NoteManager>
             if (note.m_Type != m_MonsterNotes[0])
             {
                 TouchManager.Instance.m_IsPressing = false;
-                ClearFieldAndSlate(false);
+                StartCoroutine(CorShakeField());
                 return;
             }
 
@@ -87,13 +88,8 @@ public class NoteManager : Singleton<NoteManager>
             Debug.Log("Pattern Failed, [" + m_ChainCount +
                 "] touch : " + note.m_Type + " mob : " + m_MonsterNotes[m_ChainCount]);
 
-            if (m_IsEvading)
-            {
-                GameManager.Instance.OnGameOver();
-                return;
-            }
+            StartCoroutine(CorShakeField());
 
-            ClearFieldAndSlate(false);
             return;
         }
 
@@ -114,16 +110,21 @@ public class NoteManager : Singleton<NoteManager>
 
         UIManager.Instance.IncreaseGauge();
 
-        if(m_ChainCount > m_MinusMatchCount && m_IsEvading == false)
+        if (m_ChainCount > m_MinusMatchCount && m_IsEvading == false)
         {
             UIManager.Instance.m_SlateCtrl.SwitchPlayerAttackIcon(true);
-
-            return;
         }
 
         // 8개 패턴 모드 매칭되는 경우
         if (m_ChainCount == 8)
         {
+            // 타이틀 패턴 해금
+            if (GameManager.Instance.m_IsTitle)
+            {
+                ClearFieldAndSlate(false);
+                return;
+            }
+
             TouchManager.Instance.m_IsPressing = false;
 
             DoAttack();
@@ -145,8 +146,32 @@ public class NoteManager : Singleton<NoteManager>
     {
         if (m_TouchChainNotes.Count != 0)
         {
-            //m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)pos - m_StartPos);
+            m_ChainRenderer.SetPosition(m_ChainCount, (Vector2)pos - m_StartPos);
         }
+    }
+
+    [Header("Shake Field")]
+    public GameObject m_Field;
+    public float m_ShakePower = 0.5f;
+    public float m_ShakeTime = 0.5f;
+
+    private IEnumerator CorShakeField()
+    {
+        iTween.ShakePosition(m_Field, Vector3.right * m_ShakePower, m_ShakeTime);
+
+        GameManager.Instance.OnDontTouch();
+
+        yield return new WaitForSeconds(m_ShakeTime);
+
+        GameManager.Instance.OnCanTouch();
+
+        if (m_IsEvading)
+        {
+            GameManager.Instance.OnGameOver();
+            yield break;
+        }
+
+        ClearFieldAndSlate(false);
     }
 
     //public void RemoveChainedNote() { }
@@ -194,9 +219,12 @@ public class NoteManager : Singleton<NoteManager>
         {
             // 데미지 처리
             DoAttack();
+            ClearFieldAndSlate(false);
         }
-
-        ClearFieldAndSlate(false);
+        else
+        {
+            StartCoroutine(CorShakeField());
+        }
 
         return true;
     }
@@ -328,7 +356,7 @@ public class NoteManager : Singleton<NoteManager>
 
         m_ActiveMissiles.Remove(missile);
 
-        if(m_ActiveMissiles.Count == 0)
+        if (m_ActiveMissiles.Count == 0)
         {
             GameManager.Instance.OnCanTouch();
         }

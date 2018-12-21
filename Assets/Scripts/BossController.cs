@@ -10,7 +10,7 @@ public class BossController : Singleton<BossController>
 
     public int ad;
 
-    bool isDead = false;
+    public bool m_IsDead = false;
 
     public Animator animator;
 
@@ -27,6 +27,8 @@ public class BossController : Singleton<BossController>
         currentHP = maxHP;
         UIManager.Instance.InitBoss(currentHP, maxHP);
     }
+
+
 
     private void Update()
     {
@@ -58,12 +60,12 @@ public class BossController : Singleton<BossController>
 
         UIManager.Instance.ShowDmg(dmg, pos);
 
-        if (currentHP <= 0 && !isDead)
+        if (currentHP <= 0 && !m_IsDead)
         {
             // Dead
             currentHP = 0;
 
-            isDead = true;
+            m_IsDead = true;
             AudioManager.Instance.PlayBossDead();
 
             PlayAnimAttack();

@@ -36,7 +36,7 @@ public class Ui_SlateCtrl : MonoBehaviour
         SwitchDamageRatioText(false);
         m_PlayerAttackIconParent.SetActive(false);
         m_BossAttackOffIcon.SetActive(false);
-        m_BossAttackIconBorder.enabled = true;
+        //m_BossAttackIconBorder.enabled = true;
     }
 
     private void ChangeAttackSlate()
@@ -45,7 +45,7 @@ public class Ui_SlateCtrl : MonoBehaviour
         SwitchDamageRatioText(true);
         m_PlayerAttackIconParent.SetActive(true);
         m_BossAttackOffIcon.SetActive(true);
-        m_BossAttackIconBorder.enabled = false;
+        //m_BossAttackIconBorder.enabled = false;
     }
 
     public void SwitchPlayerAttackIcon(bool isOn)

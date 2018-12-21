@@ -62,6 +62,37 @@ public class SlateInfoLoader : Singleton<SlateInfoLoader>
         else
         {
             Debug.Log("파일이 존재하지 않아용 !");
+
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
+            m_SlateInfoDatas.Add(new SlateInfo("01201201"));
         }
     }
 
